@@ -33,7 +33,7 @@ import java.awt.Color;
  * it moves through the grid. <br />
  * The implementation of this class is testable on the AP CS A and AB exams.
  */
-public class ChameleonCritter extends Critter {
+public class ChameleonKid extends ChameleonCritter {
 	
 	/**
 	 * Randomly selects a neighbor and changes this critter's color to be the
@@ -61,6 +61,32 @@ public class ChameleonCritter extends Critter {
 	public void makeMove(Location loc) {
 		setDirection(getLocation().getDirectionToward(loc));
 		super.makeMove(loc);
+	}
+
+	public ArrayList<Actor> getActors() {
+		ArrayList<Actor> actors = new ArrayList<Actor>();
+		int[] directions = {Location.AHEAD, Location.HALF_CIRCLE};
+		for(Location loc : getLocationsInDirections(directions)) {
+			Actor actor = getGrid().get(loc);
+			if(actor != null) {
+				actors.add(actor);
+			}
+			return actors;
+		}
+	}
+
+	public ArrayList<Location> getLocationsInDirections(int[] directions) {
+		ArrayList<Location> locations = new ArrayList<Location>();
+		Grid grid = getGrid();
+		Location location = getLocation();
+
+		for(int direction : directions) {
+			Location location2 = location.getAdjacentLocation(getDirection() + direction);
+			if(grid.isValid(location2)) {
+				locations.add(location2);
+			} 
+		}
+		return locations;
 	}
 
 }
